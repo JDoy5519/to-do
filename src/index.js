@@ -1,0 +1,1 @@
+import storageAvailable from "./storage.js";
