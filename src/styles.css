@@ -1,0 +1,250 @@
+/* === RESET & BASE STYLES === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', serif;
+  color: #0B3D2E;
+}
+
+/* Sidebar Items */
+.sidebar-holder div {
+  font-family: 'Cinzel', serif;
+}
+
+/* Buttons, Task Text */
+button, .task {
+  font-family: 'Inter', sans-serif;
+}
+
+/* === LISTS & LINKS === */
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* === FORM ELEMENTS === */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* === MEDIA === */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* === LAYOUT === */
+#content {
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 1fr 7fr;
+}
+
+/* Header + Main container split */
+.top-div-container, .bottom-div-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+}
+
+/* === HEADER === */
+.top-div-container {
+  background-color: #0B3D2E;
+  color: #FFFFFF;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 15px;
+}
+
+.top-div h1 {
+  color: #BE9E3E;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.top-div h3 {
+  color: #FFFFFF;
+}
+
+/* === MAIN AREA BACKGROUND === */
+.bottom-div-container {
+  background-color: #F1E7C8;
+}
+
+/* Flex containers inside header/main split */
+.top-div, .bottom-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* === LOGO === */
+.logo-img {
+  height: 75px;
+  width: 50px;
+}
+
+#logo {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+/* === SIDEBAR === */
+.sidebar-holder {
+  background-color: #0B3D2E;
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2vh;
+  padding: 10px;
+}
+
+.sidebar-holder div {
+  color: #FFFFFF;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+
+.sidebar-holder div:hover {
+  background-color: #064418;
+  color: #D4AF37;
+}
+
+/* === MAIN === */
+
+#tasks {
+  height: 80vh;
+  width: 60vw;
+  display: grid;
+  align-items: center;
+  color: #D4AF37;
+}
+
+.task {
+  border-radius: 20px;
+  font-weight: 800;
+  max-width: 100%;
+  min-width: 400px;
+  height: 30px;
+  padding: 5px;
+  background-color: #064418;
+  text-align: center;
+}
+
+.card-holder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row: repeat(auto-fit, 200px);
+  gap: 25px;
+  height: 70vh;
+  width: 60vw;
+  padding: 10px;
+}
+
+.card {
+  height: 200px;
+  min-width: 250px;
+  flex: 1;
+  border-left: 10px solid #064418;
+  border-radius: 12px;
+  background: linear-gradient(to bottom right, #FFFFFF, #F8F6F0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  color: #0B3D2E;
+  margin-bottom: 0.25rem;
+}
+
+.card span {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.card div {
+  font-size: 0.9rem;
+  color: #BE9E3E;
+  font-weight: 600;
+}
+
+/* === BUTTON CONTAINER === */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+/* === REFINED BUTTON STYLES === */
+button {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background-color: #0B3D2E;
+  color: #D4AF37;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  border: 2px solid #0B3D2E;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.15s ease, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #064418;
+  color: #F7E8A0;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
