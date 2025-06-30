@@ -1,3 +1,7 @@
+import userInput from "./user-input";
+import { allProjects } from ".";
+import { allDates } from ".";
+
 export default class Modal {
     constructor({
         titleText,
@@ -19,8 +23,12 @@ export default class Modal {
 
     }
 
-    createAndOpen () {
+    close() {
+        this.modalElem.classList.remove('open');
+        this.modalElem.remove();
+    };
 
+    createAndOpen() {
         //fluid creation and append for slightly opaque background
         this.modalElem = document.createElement('div');
         this.modalElem.classList.add('modal');
@@ -119,7 +127,8 @@ export default class Modal {
         })
 
         //dropdown to decide what project to allocate to
-        const projects = ["Default", "My fucking epic project", "Fuck yes"];
+        const projects = allProjects.map(project => project.title);
+        console.log(projects);
         const dataList = document.createElement("datalist");
         dataList.id = 'project-list';
         const input = document.createElement('input');
@@ -137,6 +146,7 @@ export default class Modal {
         dataList.setAttribute('class', 'section-container');
         dataLabel.setAttribute('for', 'project-list');
         input.setAttribute('list', 'project-list');
+        input.id = 'project';
         
 
         modalContentElem.appendChild(projectHolder);
@@ -144,12 +154,31 @@ export default class Modal {
         projectHolder.appendChild(input);
         projectHolder.appendChild(dataList);
 
+
+
+        const buttonHolder = document.createElement('div');
+        modalContentElem.appendChild(buttonHolder);
         const submitElem = document.createElement('button');
         submitElem.classList.add('submit');
         submitElem.textContent = this.submit;
+        submitElem.id = 'submit';
+        const closeElem = document.createElement('button');
+        closeElem.classList.add('submit');
+        closeElem.textContent = 'Close';
+        closeElem.id = 'close';
 
-        modalContentElem.appendChild(submitElem);
+        closeElem.addEventListener('click', () => {
+            this.close();
+        } )
+
+        submitElem.addEventListener('click', () => {
+            userInput();
+        })
+
+        buttonHolder.appendChild(submitElem);
+        buttonHolder.appendChild(closeElem);
 
         document.body.appendChild(this.modalElem);
     }
+
 }

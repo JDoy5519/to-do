@@ -1,3 +1,7 @@
+import { allProjects } from ".";
+import { allDates } from ".";
+import Project from "./project";
+
 export default class Task {
     constructor(title, description, dueDate, priority, project) {
         this.title = title;
@@ -7,9 +11,9 @@ export default class Task {
         this.project = project;
     }
 
-    addToProject(projectArray) {
-        projectArray.push(this);
-        return projectArray;
-        //here the project array will be project.toDo
-    }
+    locateProject(project) {
+        const found = allProjects.find((element) => element = project.title);
+        console.log(found);
+        found.tasks.push(this);
+    };
  }

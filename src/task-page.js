@@ -70,10 +70,6 @@ export default function taskPage() {
   deleteButton.textContent = "Delete"
   const completeButton = document.createElement("button");
   completeButton.textContent = "Complete";
-  const card2 = document.createElement('div');
-  card2.className = 'card';
-  const card3 = document.createElement('div');
-  card3.className = 'card';
 
 
   topDiv.appendChild(logoDiv);
@@ -84,8 +80,6 @@ export default function taskPage() {
   taskHolder.appendChild(addTask);
   taskHolder.appendChild(cardHolder);
   cardHolder.appendChild(card);
-  cardHolder.appendChild(card2);
-  cardHolder.appendChild(card3);
   card.append(title, dueDate, priority,buttonContainer);
   buttonContainer.append(deleteButton, completeButton);
 

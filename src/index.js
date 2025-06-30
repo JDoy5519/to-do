@@ -5,17 +5,27 @@ import taskPage from "./task-page.js";
 import './styles.css';
 import './modal.css';
 import Modal from "./modal.js";
+import userInput from "./user-input.js";
+
+export const allProjects = [];
+export const allDates = [];
 
 taskPage();
 
-const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Daily Tasks");
+const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
 const defaultProject = new Project("Default");
+const coolProject = new Project('Cool');
+const wickedProject = new Project('Wicked');
 
-console.log(defaultProject);
+defaultProject.addToLargeArray(allProjects);
+coolProject.addToLargeArray(allProjects);
+wickedProject.addToLargeArray(allProjects);
 
-doWashing.addToProject(defaultProject.toDo);
-console.log(defaultProject);
-console.log(doWashing);
+console.log(allProjects);
+console.log(allDates);
+console.log(doWashing.locateProject(doWashing));
+console.log(allProjects);
+
 
 const confirmModal = new Modal ({
     titleText: 'What is your next shot?',
@@ -25,6 +35,10 @@ const confirmModal = new Modal ({
     submit: 'Take a swing!'
 })
 
-confirmModal.createAndOpen();
+const taskButton = document.querySelector('#task');
+
+taskButton.addEventListener('click', () => {
+    confirmModal.createAndOpen();
+});
 
 console.log(confirmModal);
