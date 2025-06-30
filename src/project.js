@@ -9,4 +9,9 @@ export default class Project {
         return arr;
         //here the project array will be project.toDo
     };
+
+
+    appendToDom() {
+        this.tasks.forEach(task => task.createCard());
+    }
 }

@@ -7,12 +7,16 @@ import './modal.css';
 import Modal from "./modal.js";
 import userInput from "./user-input.js";
 
+//initialise bigger arrays
 export const allProjects = [];
 export const allDates = [];
 
+//load page
 taskPage();
 
+//EXAMPLE TASKS
 const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
+const doCleaning = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
 const defaultProject = new Project("Default");
 const coolProject = new Project('Cool');
 const wickedProject = new Project('Wicked');
@@ -23,10 +27,12 @@ wickedProject.addToLargeArray(allProjects);
 
 console.log(allProjects);
 console.log(allDates);
-console.log(doWashing.locateProject(doWashing));
+doWashing.locateProject();
+doCleaning.locateProject();
 console.log(allProjects);
 
 
+//Modal load
 const confirmModal = new Modal ({
     titleText: 'What is your next shot?',
     labelText: 'Shot name:',
@@ -41,4 +47,5 @@ taskButton.addEventListener('click', () => {
     confirmModal.createAndOpen();
 });
 
-console.log(confirmModal);
+//testing functionality
+defaultProject.appendToDom();

@@ -56,6 +56,7 @@ export default function taskPage() {
   addTask.textContent = 'Tee up a task +'
   const cardHolder = document.createElement('div');
   cardHolder.className = 'card-holder';
+  cardHolder.id = 'cardHolder';
   const card = document.createElement('div');
   card.className = 'card';
   const title = document.createElement('h2');
@@ -80,7 +81,7 @@ export default function taskPage() {
   taskHolder.appendChild(addTask);
   taskHolder.appendChild(cardHolder);
   cardHolder.appendChild(card);
-  card.append(title, dueDate, priority,buttonContainer);
+  card.append(title, dueDate, priority, buttonContainer);
   buttonContainer.append(deleteButton, completeButton);
 
   contentHolder.appendChild(topDiv);
