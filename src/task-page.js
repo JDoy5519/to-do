@@ -52,6 +52,7 @@ export default function taskPage() {
   taskHolder.id = 'tasks';
   const addTask = document.createElement('div');
   addTask.className = 'task'
+  addTask.id = 'task';
   addTask.textContent = 'Tee up a task +'
   const cardHolder = document.createElement('div');
   cardHolder.className = 'card-holder';

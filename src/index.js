@@ -2,7 +2,9 @@ import storageAvailable from "./storage.js";
 import Task from "./task.js";
 import Project from "./project.js";
 import taskPage from "./task-page.js";
-import './styles.css'
+import './styles.css';
+import './modal.css';
+import Modal from "./modal.js";
 
 taskPage();
 
@@ -14,3 +16,15 @@ console.log(defaultProject);
 doWashing.addToProject(defaultProject.toDo);
 console.log(defaultProject);
 console.log(doWashing);
+
+const confirmModal = new Modal ({
+    titleText: 'What is your next shot?',
+    labelText: 'Shot name:',
+    descriptionText: 'Describe your shot:',
+    dueDate: 'Tee time:',
+    submit: 'Take a swing!'
+})
+
+confirmModal.createAndOpen();
+
+console.log(confirmModal);
