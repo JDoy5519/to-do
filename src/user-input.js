@@ -1,5 +1,6 @@
 import Task from "./task";
 import Project from "./project";
+import { differenceInDays, subDays, format } from "date-fns";
 
 export default function userInput() {
     let title = document.getElementById("taskLabel").value;
@@ -7,6 +8,7 @@ export default function userInput() {
     let description = document.getElementById("taskDescription").value;
     console.log(description);
     let date = document.getElementById("taskDueDate").value;
+    let formattedDate = format(date, 'dd,MM,yyyy');
     console.log(date);
     const low = document.getElementById('priority-0');
     const medium = document.getElementById('priority-1');
@@ -21,7 +23,7 @@ export default function userInput() {
     console.log(priority);
     let project = document.getElementById('project').value;
     console.log(project);
-    const newTask = new Task(title, description, date, priority, project);
+    const newTask = new Task(title, description, formattedDate, priority, project);
     console.log(newTask);
     newTask.locateProject(newTask);
 }

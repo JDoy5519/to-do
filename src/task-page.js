@@ -57,20 +57,6 @@ export default function taskPage() {
   const cardHolder = document.createElement('div');
   cardHolder.className = 'card-holder';
   cardHolder.id = 'cardHolder';
-  const card = document.createElement('div');
-  card.className = 'card';
-  const title = document.createElement('h2');
-  title.textContent = "Do the washing up!";
-  const dueDate = document.createElement('span');
-  dueDate.textContent = "01/06/2026";
-  const priority = document.createElement('div');
-  priority.textContent = "very important"
-  const buttonContainer = document.createElement('div');
-  buttonContainer.className = 'button-container';
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete"
-  const completeButton = document.createElement("button");
-  completeButton.textContent = "Complete";
 
 
   topDiv.appendChild(logoDiv);
@@ -80,9 +66,6 @@ export default function taskPage() {
   mainDiv.appendChild(taskHolder);
   taskHolder.appendChild(addTask);
   taskHolder.appendChild(cardHolder);
-  cardHolder.appendChild(card);
-  card.append(title, dueDate, priority, buttonContainer);
-  buttonContainer.append(deleteButton, completeButton);
 
   contentHolder.appendChild(topDiv);
   contentHolder.appendChild(bottomDiv);

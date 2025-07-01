@@ -6,6 +6,7 @@ import './styles.css';
 import './modal.css';
 import Modal from "./modal.js";
 import userInput from "./user-input.js";
+import getDate from "./dates.js";
 
 //initialise bigger arrays
 export const allProjects = [];
@@ -16,14 +17,16 @@ taskPage();
 
 //EXAMPLE TASKS
 const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
-const doCleaning = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
+const doCleaning = new Task("Do the cleaning", "I really need to do the washing today", "01/06/2000", "very important", "Default");
 const defaultProject = new Project("Default");
-const coolProject = new Project('Cool');
-const wickedProject = new Project('Wicked');
+const today = new Project("Today");
+const thisWeek = new Project ("This Week");
+const otherDate = new Project ("Other Date");
 
 defaultProject.addToLargeArray(allProjects);
-coolProject.addToLargeArray(allProjects);
-wickedProject.addToLargeArray(allProjects);
+today.addToLargeArray(allDates);
+thisWeek.addToLargeArray(allDates);
+otherDate.addToLargeArray(allDates);
 
 console.log(allProjects);
 console.log(allDates);
