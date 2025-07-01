@@ -1,6 +1,7 @@
 import { allProjects } from ".";
 import { allDates } from ".";
 import Project from "./project";
+import { isToday, isThisWeek } from "date-fns";
 
 export default class Task {
     constructor(title, description, dueDate, priority, project) {
@@ -49,4 +50,26 @@ export default class Task {
         const cardHolder = document.getElementById('cardHolder');
         cardHolder.appendChild(card);
     }
+
+    getDate() {
+        //convert argument to date
+        const date = new Date(this.dueDate);
+        console.log(date);
+    
+        //logic to decide whether it is today 
+        // or this week
+        const today = isToday(date);
+        const thisWeek = isThisWeek(date);
+    
+        //logic for actions based 
+        // upon these boolean statements
+        if (today === true) {
+            console.log("this is today!");
+        } else if (thisWeek === true) {
+            console.log("this is this week!")
+        } else {
+            console.log("This is way in the future!")
+        }
+    }
+    
  }

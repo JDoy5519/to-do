@@ -6,7 +6,6 @@ import './styles.css';
 import './modal.css';
 import Modal from "./modal.js";
 import userInput from "./user-input.js";
-import getDate from "./dates.js";
 
 //initialise bigger arrays
 export const allProjects = [];
@@ -52,3 +51,5 @@ taskButton.addEventListener('click', () => {
 
 //testing functionality
 defaultProject.appendToDom();
+doWashing.getDate();
+doCleaning.getDate();
