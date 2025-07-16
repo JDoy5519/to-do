@@ -11,28 +11,27 @@ import userInput from "./user-input.js";
 export const allProjects = [];
 export const allDates = [];
 
-//load page
-taskPage();
-
 //EXAMPLE TASKS
 const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
 const doCleaning = new Task("Do the cleaning", "I really need to do the washing today", "01/06/2000", "very important", "Default");
 const defaultProject = new Project("Default");
 const today = new Project("Today");
 const thisWeek = new Project ("This Week");
-const otherDate = new Project ("Other Date");
+const myScorecard = new Project ("My Scorecard");
 
+//initialise task accordingly
 defaultProject.addToLargeArray(allProjects);
+today.addToLargeArray(allProjects);
 today.addToLargeArray(allDates);
 thisWeek.addToLargeArray(allDates);
-otherDate.addToLargeArray(allDates);
-
-console.log(allProjects);
-console.log(allDates);
+myScorecard.addToLargeArray(allDates);
 doWashing.locateProject();
 doCleaning.locateProject();
-console.log(allProjects);
+doWashing.pushToHome();
+doCleaning.pushToHome();
 
+//load page
+taskPage();
 
 //Modal load
 const confirmModal = new Modal ({
@@ -41,7 +40,7 @@ const confirmModal = new Modal ({
     descriptionText: 'Describe your shot:',
     dueDate: 'Tee time:',
     submit: 'Take a swing!'
-})
+});
 
 const taskButton = document.querySelector('#task');
 
@@ -50,6 +49,6 @@ taskButton.addEventListener('click', () => {
 });
 
 //testing functionality
-defaultProject.appendToDom();
 doWashing.getDate();
 doCleaning.getDate();
+myScorecard.appendToDom();

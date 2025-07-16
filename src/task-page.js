@@ -1,4 +1,6 @@
 import logoImg from "./images/logo.png";
+import { allProjects } from ".";
+import { allDates } from ".";
 
 export default function taskPage() {
   const contentHolder = document.querySelector('#content');
@@ -26,8 +28,10 @@ export default function taskPage() {
   titleDiv.innerHTML = `
     <h1>The Caddy</h1>
     <h3>Your digital task assistant</h3>
+    <h2>My Scorecard</h2>
   `;
 
+  //creating and appending sections to the sidebar
   const sidebarDiv = document.createElement('div');
   sidebarDiv.className = 'bottom-div';
   sidebarDiv.id = 'sidebar'
@@ -39,10 +43,85 @@ export default function taskPage() {
   roundToday.textContent = "Today's Round";
   const roundWeek = document.createElement('div');
   roundWeek.textContent = "This Week's Round";
+
+  //newCourse behaviour
+  const newCourse = document.createElement('div');
+  newCourse.id = 'create'
+  newCourse.textContent = 'Create a Course'
+  newCourse.addEventListener('click', () => {
+    formContainer.classList.toggle('active');
+  })
+
+  document.addEventListener('click', (event) => {
+    if(event.target.id != 'create') {
+      formContainer.classList.remove('active');
+    }
+  })
+
+  //create container to store the form to create a new project
+  const formContainer = document.createElement('div');
+  formContainer.setAttribute('class', 'form-container');
+
+  newCourse.append(formContainer);
+
+  //build the form input to append to the container
+  const projectInput = document.createElement('input');
+  projectInput.id = 'projectInput'
+  projectInput.type = 'text';
+  projectInput.placeholder = 'Name your project'
+  const inputLabel = document.createElement("label");
+  inputLabel.setAttribute('for', 'projectInput');
+  inputLabel.textContent = 'New project:';
+
+  //build the buttons for submit/close and their functionality
+  
+
+
+  formContainer.append(inputLabel, projectInput)
+
+  //myCourse behaviour
   const myCourse = document.createElement('div');
+  myCourse.id = 'toggle';
   myCourse.textContent = "My Courses +";
+  myCourse.addEventListener('click', () => {
+    projectContainer.classList.toggle('active');
+  })
+
+  document.addEventListener('click', (event) => {
+    if(event.target.id != 'toggle') {
+      projectContainer.classList.remove('active');
+    }
+  })
+
+  //append all to sidebar
   sidebarDiv.appendChild(sidebar);
-  sidebar.append(myScorecard, roundToday, roundWeek, myCourse);
+  sidebar.append(myScorecard, roundToday, roundWeek, newCourse, myCourse);
+
+  //create container to store all projects
+  const projectContainer = document.createElement('div');
+  projectContainer.setAttribute('class', 'project-list');
+  const projects = allProjects.map(project => project.title);
+  console.log(projects);
+
+  //create button to bring up a different modal to create a new project
+  const newProject = document.createElement('div');
+  newProject.textContent = 'Add a new project +';
+  projectContainer.append(newProject);
+  projectContainer.addEventListener('click', () => {
+    const newDiv = document.createElement('div');
+    newDiv.id = ''
+    newProject.append(newDiv);
+  })
+  
+
+  projects.forEach(project => {
+    let projectListElem = document.createElement('div');
+    projectListElem.textContent = `${project}`;
+    projectContainer.append(projectListElem);
+    sidebar.append(projectContainer);
+  });
+
+  
 
 
   const mainDiv = document.createElement('div');

@@ -1,7 +1,9 @@
 import Task from "./task";
 import Project from "./project";
 import { differenceInHours, format, isToday, isThisWeek } from "date-fns";
+import { allDates } from ".";
 
+//creating a task to push into the array
 export default function userInput() {
     let title = document.getElementById("taskLabel").value;
     console.log(title);
@@ -22,6 +24,8 @@ export default function userInput() {
     let project = document.getElementById('project').value;
     console.log(project);
     const newTask = new Task(title, description, date, priority, project);
-    console.log(newTask);
+    const myScorecard = allDates[2];
     newTask.locateProject(newTask);
+    newTask.noDuplicates(myScorecard);
+    newTask.pushToHome();
 }

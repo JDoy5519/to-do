@@ -10,6 +10,7 @@ export default class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.project = project;
+        this.id = crypto.randomUUID();
     }
 
     locateProject() {
@@ -17,10 +18,15 @@ export default class Task {
         if (found) {
             found.tasks.push(this);
         } else {
-            console.log("Hi!")
+            alert("This is not a project!");
         }
         
     };
+
+    pushToHome() {
+        const myScorecard = allDates[2];
+        myScorecard.tasks.push(this);
+    }
 
     createCard() {
         const card = document.createElement('div');
@@ -70,6 +76,28 @@ export default class Task {
         } else {
             console.log("This is way in the future!")
         }
+    }
+
+    noDuplicates(project) {
+
+    function getIdArray(project) {
+        const emptyArr = [];
+        project.tasks.forEach(task => {
+            emptyArr.push(task.id);
+        });;
+    
+        console.log(emptyArr);
+        return emptyArr;
+    }
+
+    const arr = getIdArray(project);
+    const found = arr.find((task) => task.id === this.id);
+
+    if (found) {
+    console.log("This card already exists!");
+    } else {
+    this.createCard();
+    }
     }
     
  }

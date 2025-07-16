@@ -2,6 +2,7 @@ import userInput from "./user-input";
 import { allProjects } from ".";
 import { allDates } from ".";
 
+
 export default class Modal {
     constructor({
         titleText,
@@ -19,8 +20,6 @@ export default class Modal {
         this.importance = importance;
         this.project = project;
         this.submit = submit;
-
-
     }
 
     close() {
@@ -135,6 +134,7 @@ export default class Modal {
         const projectHolder = document.createElement('div');
         projectHolder.setAttribute('class', 'section-container');
 
+
         projects.forEach(project => {
             let option = document.createElement('option');
             option.value = project;
@@ -173,6 +173,7 @@ export default class Modal {
 
         submitElem.addEventListener('click', () => {
             userInput();
+            this.close();
         })
 
         buttonHolder.appendChild(submitElem);
