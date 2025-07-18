@@ -1,6 +1,7 @@
 import logoImg from "./images/logo.png";
 import { allProjects } from ".";
 import { allDates } from ".";
+import Project from "./project";
 
 export default function taskPage() {
   const contentHolder = document.querySelector('#content');
@@ -48,21 +49,12 @@ export default function taskPage() {
   const newCourse = document.createElement('div');
   newCourse.id = 'create'
   newCourse.textContent = 'Create a Course'
-  newCourse.addEventListener('click', () => {
-    formContainer.classList.toggle('active');
-  })
-
-  document.addEventListener('click', (event) => {
-    if(event.target.id != 'create') {
-      formContainer.classList.remove('active');
-    }
-  })
+  
 
   //create container to store the form to create a new project
   const formContainer = document.createElement('div');
   formContainer.setAttribute('class', 'form-container');
-
-  newCourse.append(formContainer);
+  formContainer.id = 'formContainer';
 
   //build the form input to append to the container
   const projectInput = document.createElement('input');
@@ -74,10 +66,44 @@ export default function taskPage() {
   inputLabel.textContent = 'New project:';
 
   //build the buttons for submit/close and their functionality
-  
+  const buttonHolder = document.createElement('div');
+  buttonHolder.id = 'buttonHolder';
+
+  const submitButton = document.createElement('button');
+  const closeButton = document.createElement('button');
+
+  submitButton.innerText = 'Submit';
+  closeButton.innerText = 'Close';
+
+  buttonHolder.append(submitButton, closeButton);
 
 
-  formContainer.append(inputLabel, projectInput)
+  //eventListeners for the buttons to open/close the form
+  newCourse.addEventListener('click', () => {
+    formContainer.classList.add('active');
+  })
+
+  closeButton.addEventListener('click', () => {
+    formContainer.classList.remove('active');
+  })
+
+  submitButton.addEventListener('click', () => {
+    let projectUserInput = projectInput.value;
+    console.log(projectUserInput);
+    const userProject = new Project(projectUserInput);
+    console.log(userProject);
+    userProject.addToLargeArray(allProjects);
+    console.log(allProjects);
+
+    formContainer.classList.remove('active');
+    projectInput.value = '';
+
+    let projectListElem = document.createElement('div');
+    projectListElem.textContent = projectUserInput;
+    projectContainer.append(projectListElem);
+  })
+
+  formContainer.append(inputLabel, projectInput, buttonHolder)
 
   //myCourse behaviour
   const myCourse = document.createElement('div');
@@ -96,22 +122,13 @@ export default function taskPage() {
   //append all to sidebar
   sidebarDiv.appendChild(sidebar);
   sidebar.append(myScorecard, roundToday, roundWeek, newCourse, myCourse);
+  sidebar.insertBefore(formContainer, sidebar.children[4]);
 
   //create container to store all projects
   const projectContainer = document.createElement('div');
   projectContainer.setAttribute('class', 'project-list');
   const projects = allProjects.map(project => project.title);
   console.log(projects);
-
-  //create button to bring up a different modal to create a new project
-  const newProject = document.createElement('div');
-  newProject.textContent = 'Add a new project +';
-  projectContainer.append(newProject);
-  projectContainer.addEventListener('click', () => {
-    const newDiv = document.createElement('div');
-    newDiv.id = ''
-    newProject.append(newDiv);
-  })
   
 
   projects.forEach(project => {
@@ -120,9 +137,6 @@ export default function taskPage() {
     projectContainer.append(projectListElem);
     sidebar.append(projectContainer);
   });
-
-  
-
 
   const mainDiv = document.createElement('div');
   mainDiv.className = 'bottom-div';

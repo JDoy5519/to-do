@@ -226,6 +226,12 @@ img {
   text-align: center;
 }
 
+.task:hover {
+  cursor: pointer;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
 .card-holder {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
