@@ -1,6 +1,7 @@
 import userInput from "./user-input";
 import { allProjects } from ".";
 import { allDates } from ".";
+import taskPage from "./task-page";
 
 
 export default class Modal {

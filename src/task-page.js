@@ -9,28 +9,25 @@ export default function taskPage() {
 
   const topDiv = document.createElement('div');
   topDiv.className = 'top-div-container';
-
-  const bottomDiv = document.createElement('div');
-  bottomDiv.className = 'bottom-div-container';
-
-  const logoDiv = document.createElement('div');
-  logoDiv.className = 'top-div';
-  logoDiv.id = 'logo'
+ 
+  const logoRow = document.createElement('div');
+  logoRow.className = 'top-left-logo';
 
   const img = document.createElement('img');
   img.src = logoImg;
-  img.alt = 'Logo';
+  img.alt = 'Onda Logo';
   img.className = 'logo-img';
 
-  logoDiv.appendChild(img);
+  const title = document.createElement('h1');
+  title.className = 'onda-title';
+  title.textContent = 'Onda';
 
-  const titleDiv = document.createElement('div');
-  titleDiv.className = 'top-div';
-  titleDiv.innerHTML = `
-    <h1>The Caddy</h1>
-    <h3>Your digital task assistant</h3>
-    <h2>My Scorecard</h2>
-  `;
+  logoRow.appendChild(img);
+  logoRow.appendChild(title);
+  topDiv.appendChild(logoRow);
+
+  const bottomDiv = document.createElement('div');
+  bottomDiv.className = 'bottom-div-container';
 
   //creating and appending sections to the sidebar
   const sidebarDiv = document.createElement('div');
@@ -38,17 +35,17 @@ export default function taskPage() {
   sidebarDiv.id = 'sidebar'
   const sidebar = document.createElement('div');
   sidebar.className = 'sidebar-holder';
-  const myScorecard = document.createElement('div');
-  myScorecard.textContent = "My Scorecard";
-  const roundToday = document.createElement('div');
-  roundToday.textContent = "Today's Round";
-  const roundWeek = document.createElement('div');
-  roundWeek.textContent = "This Week's Round";
+  const dashboard = document.createElement('div');
+  dashboard.textContent = "Dashboard";
+  const today = document.createElement('div');
+  today.textContent = "Today";
+  const thisWeek = document.createElement('div');
+  thisWeek.textContent = "This Week";
 
   //newCourse behaviour
-  const newCourse = document.createElement('div');
-  newCourse.id = 'create'
-  newCourse.textContent = 'Create a Course'
+  const newProject = document.createElement('div');
+  newProject.id = 'create'
+  newProject.textContent = 'New Project'
   
 
   //create container to store the form to create a new project
@@ -60,10 +57,8 @@ export default function taskPage() {
   const projectInput = document.createElement('input');
   projectInput.id = 'projectInput'
   projectInput.type = 'text';
-  projectInput.placeholder = 'Name your project'
-  const inputLabel = document.createElement("label");
-  inputLabel.setAttribute('for', 'projectInput');
-  inputLabel.textContent = 'New project:';
+  projectInput.placeholder = 'New project name';
+
 
   //build the buttons for submit/close and their functionality
   const buttonHolder = document.createElement('div');
@@ -76,10 +71,11 @@ export default function taskPage() {
   closeButton.innerText = 'Close';
 
   buttonHolder.append(submitButton, closeButton);
+  formContainer.append(projectInput, buttonHolder);
 
 
   //eventListeners for the buttons to open/close the form
-  newCourse.addEventListener('click', () => {
+  newProject.addEventListener('click', () => {
     formContainer.classList.add('active');
   })
 
@@ -100,16 +96,17 @@ export default function taskPage() {
 
     let projectListElem = document.createElement('div');
     projectListElem.textContent = projectUserInput;
+    projectListElem.classList.add('project-item');
     projectContainer.append(projectListElem);
   })
 
-  formContainer.append(inputLabel, projectInput, buttonHolder)
+  formContainer.append(projectInput, buttonHolder)
 
   //myCourse behaviour
-  const myCourse = document.createElement('div');
-  myCourse.id = 'toggle';
-  myCourse.textContent = "My Courses +";
-  myCourse.addEventListener('click', () => {
+  const myProjects = document.createElement('div');
+  myProjects.id = 'toggle';
+  myProjects.textContent = "View Projects +";
+  myProjects.addEventListener('click', () => {
     projectContainer.classList.toggle('active');
   })
 
@@ -118,11 +115,6 @@ export default function taskPage() {
       projectContainer.classList.remove('active');
     }
   })
-
-  //append all to sidebar
-  sidebarDiv.appendChild(sidebar);
-  sidebar.append(myScorecard, roundToday, roundWeek, newCourse, myCourse);
-  sidebar.insertBefore(formContainer, sidebar.children[4]);
 
   //create container to store all projects
   const projectContainer = document.createElement('div');
@@ -134,10 +126,20 @@ export default function taskPage() {
   projects.forEach(project => {
     let projectListElem = document.createElement('div');
     projectListElem.textContent = `${project}`;
+    projectListElem.classList.add('project-item');
     projectContainer.append(projectListElem);
-    sidebar.append(projectContainer);
   });
 
+  
+
+  //append all to sidebar
+  sidebarDiv.appendChild(sidebar);
+  sidebar.append(dashboard, today, thisWeek, newProject, myProjects, projectContainer);
+  sidebar.insertBefore(formContainer, sidebar.children[4]);
+
+  
+
+  //main tasks area
   const mainDiv = document.createElement('div');
   mainDiv.className = 'bottom-div';
   mainDiv.id = 'main';
@@ -146,20 +148,15 @@ export default function taskPage() {
   const addTask = document.createElement('div');
   addTask.className = 'task'
   addTask.id = 'task';
-  addTask.textContent = 'Tee up a task +'
+  addTask.textContent = 'Add a task +'
   const cardHolder = document.createElement('div');
   cardHolder.className = 'card-holder';
   cardHolder.id = 'cardHolder';
 
 
-  topDiv.appendChild(logoDiv);
-  topDiv.appendChild(titleDiv);
-  bottomDiv.appendChild(sidebarDiv);
-  bottomDiv.appendChild(mainDiv);
+  taskHolder.append(addTask, cardHolder);
   mainDiv.appendChild(taskHolder);
-  taskHolder.appendChild(addTask);
-  taskHolder.appendChild(cardHolder);
 
-  contentHolder.appendChild(topDiv);
-  contentHolder.appendChild(bottomDiv);
+  bottomDiv.append(sidebarDiv, mainDiv);
+  contentHolder.append(topDiv, bottomDiv);
 }

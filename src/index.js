@@ -35,11 +35,11 @@ taskPage();
 
 //Modal load
 const confirmModal = new Modal ({
-    titleText: 'What is your next shot?',
-    labelText: 'Shot name:',
-    descriptionText: 'Describe your shot:',
-    dueDate: 'Tee time:',
-    submit: 'Take a swing!'
+    titleText: 'Create a new task',
+    labelText: 'Task title:',
+    descriptionText: 'Notes:',
+    dueDate: 'When is it due?',
+    submit: 'Add task'
 });
 
 const taskButton = document.querySelector('#task');
