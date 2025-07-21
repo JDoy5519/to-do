@@ -58,34 +58,35 @@ img {
   color: #1F2937;
   display: flex;
   align-items: center;
+  justify-content: space-between; /* key line for spacing left/right */
   padding: 1rem 2rem;
   height: 80px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
-.header-inner {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
 .top-left-logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .logo-img {
-  height: 56px;
+  height: 48px;
   width: auto;
 }
 
 .onda-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
+  color: #0F3C5C; 
+}
+
+#secondaryTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 500;
   color: #0F3C5C;
-  letter-spacing: -0.5px;
 }
 
 /* === BOTTOM WRAPPER === */

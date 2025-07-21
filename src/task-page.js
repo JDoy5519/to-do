@@ -23,9 +23,14 @@ export default function taskPage() {
   title.className = 'onda-title';
   title.textContent = 'Onda';
 
+  const secondaryTitle = document.createElement('div');
+  secondaryTitle.id = 'secondaryTitle';
+  secondaryTitle.textContent = 'Dashboard';
+
   logoRow.appendChild(img);
   logoRow.appendChild(title);
   topDiv.appendChild(logoRow);
+  topDiv.appendChild(secondaryTitle);
 
   const bottomDiv = document.createElement('div');
   bottomDiv.className = 'bottom-div-container';
@@ -37,6 +42,8 @@ export default function taskPage() {
     const cardContainer = document.querySelector('#cardHolder');
     cardContainer.innerHTML = '';
     found.tasks.forEach(task => task.createCard());
+    const title = document.querySelector('#secondaryTitle');
+    title.textContent = `${project}`;
   }
 
   //creating and appending sections to the sidebar
@@ -92,6 +99,16 @@ export default function taskPage() {
   buttonHolder.append(submitButton, closeButton);
   formContainer.append(projectInput, buttonHolder);
 
+  //function to be reused onclick for newly created projects
+  function appendTasks(project) {
+    const found = allProjects.find((proj) => proj.title === project);
+    console.log(found.tasks);
+    const cardContainer = document.querySelector('#cardHolder');
+    cardContainer.innerHTML = '';
+    found.tasks.forEach(task => task.createCard());
+    const title = document.querySelector('#secondaryTitle');
+    title.textContent = `${project}`;
+  }
 
   //eventListeners for the buttons to open/close the form
   newProject.addEventListener('click', () => {
@@ -115,6 +132,9 @@ export default function taskPage() {
 
     let projectListElem = document.createElement('div');
     projectListElem.textContent = projectUserInput;
+    projectListElem.addEventListener('click', () => {
+      appendTasks(projectUserInput);
+    })
     projectListElem.classList.add('project-item');
     projectContainer.append(projectListElem);
   })
@@ -141,15 +161,7 @@ export default function taskPage() {
   const projects = allProjects.map(project => project.title);
   console.log(projects);
 
-  //function to be reused onclick for newly created projects
-  function appendTasks(project) {
-    const found = allProjects.find((proj) => proj.title === project);
-    console.log(found.tasks);
-    const cardContainer = document.querySelector('#cardHolder');
-    cardContainer.innerHTML = '';
-    found.tasks.forEach(task => task.createCard());
-  }
-  
+  //loop to give all original sidebar content an onclick function  
   projects.forEach(project => {
     let projectListElem = document.createElement('div');
     projectListElem.textContent = `${project}`;
