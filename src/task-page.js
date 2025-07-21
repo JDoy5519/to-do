@@ -3,6 +3,7 @@ import { allProjects } from ".";
 import { allDates } from ".";
 import Project from "./project";
 
+
 export default function taskPage() {
   const contentHolder = document.querySelector('#content');
   if (!contentHolder) return;
@@ -29,6 +30,15 @@ export default function taskPage() {
   const bottomDiv = document.createElement('div');
   bottomDiv.className = 'bottom-div-container';
 
+  //onclick for existing sidebar elements
+  function appendDates(project) {
+    const found = allDates.find((date) => date.title === project);
+    console.log(found.tasks);
+    const cardContainer = document.querySelector('#cardHolder');
+    cardContainer.innerHTML = '';
+    found.tasks.forEach(task => task.createCard());
+  }
+
   //creating and appending sections to the sidebar
   const sidebarDiv = document.createElement('div');
   sidebarDiv.className = 'bottom-div';
@@ -37,12 +47,21 @@ export default function taskPage() {
   sidebar.className = 'sidebar-holder';
   const dashboard = document.createElement('div');
   dashboard.textContent = "Dashboard";
+  dashboard.addEventListener('click', () => {
+      appendDates("Dashboard");
+    })
   const today = document.createElement('div');
   today.textContent = "Today";
+  today.addEventListener('click', () => {
+      appendDates("Today");
+    })
   const thisWeek = document.createElement('div');
   thisWeek.textContent = "This Week";
+  thisWeek.addEventListener('click', () => {
+      appendDates("This Week");
+    })
 
-  //newCourse behaviour
+  //newProject behaviour
   const newProject = document.createElement('div');
   newProject.id = 'create'
   newProject.textContent = 'New Project'
@@ -121,13 +140,25 @@ export default function taskPage() {
   projectContainer.setAttribute('class', 'project-list');
   const projects = allProjects.map(project => project.title);
   console.log(projects);
-  
 
+  //function to be reused onclick for newly created projects
+  function appendTasks(project) {
+    const found = allProjects.find((proj) => proj.title === project);
+    console.log(found.tasks);
+    const cardContainer = document.querySelector('#cardHolder');
+    cardContainer.innerHTML = '';
+    found.tasks.forEach(task => task.createCard());
+  }
+  
   projects.forEach(project => {
     let projectListElem = document.createElement('div');
     projectListElem.textContent = `${project}`;
     projectListElem.classList.add('project-item');
+    projectListElem.addEventListener('click', () => {
+      appendTasks(project);
+    })
     projectContainer.append(projectListElem);
+  
   });
 
   

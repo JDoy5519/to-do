@@ -13,11 +13,6 @@ export default function userInput() {
 
     let date = document.getElementById("taskDueDate").value;
 
-    if (date) {
-        const [year, month, day] = date.split("-");
-        date = `${day}/${month}/${year}`;
-    }
-
     const low = document.getElementById('priority-0');
     const medium = document.getElementById('priority-1');
     let priority;
@@ -36,6 +31,7 @@ export default function userInput() {
     const newTask = new Task(title, description, date, priority, project);
     const dashboard = allDates[2];
 
+    newTask.getDate();
     newTask.locateProject(newTask);
     newTask.noDuplicates(dashboard);
     newTask.pushToHome();

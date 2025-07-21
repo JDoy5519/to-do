@@ -24,8 +24,8 @@ export default class Task {
     };
 
     pushToHome() {
-        const myScorecard = allDates[2];
-        myScorecard.tasks.push(this);
+        const dashboard = allDates[2];
+        dashboard.tasks.push(this);
     }
 
     createCard() {
@@ -36,7 +36,12 @@ export default class Task {
         title.textContent = this.title;
 
         const dueDate = document.createElement('span');
-        dueDate.textContent = this.dueDate;
+        let date = this.dueDate
+        if (date) {
+        const [year, month, day] = date.split("-");
+        date = `${day}/${month}/${year}`;
+        }
+        dueDate.textContent = date;
 
         const priority = document.createElement('div');
         priority.textContent = this.priority;
@@ -70,9 +75,11 @@ export default class Task {
         //logic for actions based 
         // upon these boolean statements
         if (today === true) {
-            console.log("this is today!");
+            allDates[0].tasks.push(this);
+            console.log(allDates[0]);
         } else if (thisWeek === true) {
-            console.log("this is this week!")
+            allDates[1].tasks.push(this);
+            console.log(allDates[1]);
         } else {
             console.log("This is way in the future!")
         }

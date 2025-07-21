@@ -11,27 +11,23 @@ import userInput from "./user-input.js";
 export const allProjects = [];
 export const allDates = [];
 
-//EXAMPLE TASKS
-const doWashing = new Task("Do the washing", "I really need to do the washing today", "01/06/2000", "very important", "Default");
-const doCleaning = new Task("Do the cleaning", "I really need to do the washing today", "01/06/2000", "very important", "Default");
+//Initialise default arrays
 const defaultProject = new Project("Default");
 const today = new Project("Today");
 const thisWeek = new Project ("This Week");
-const myScorecard = new Project ("My Scorecard");
+const dashboard = new Project ("Dashboard");
 
-//initialise task accordingly
+//add projects to arrays for storage
 defaultProject.addToLargeArray(allProjects);
-today.addToLargeArray(allProjects);
 today.addToLargeArray(allDates);
 thisWeek.addToLargeArray(allDates);
-myScorecard.addToLargeArray(allDates);
-doWashing.locateProject();
-doCleaning.locateProject();
-doWashing.pushToHome();
-doCleaning.pushToHome();
+dashboard.addToLargeArray(allDates);
+
 
 //load page
 taskPage();
+
+console.log(allDates);
 
 //Modal load
 const confirmModal = new Modal ({
@@ -48,7 +44,5 @@ taskButton.addEventListener('click', () => {
     confirmModal.createAndOpen();
 });
 
-//testing functionality
-doWashing.getDate();
-doCleaning.getDate();
-myScorecard.appendToDom();
+
+dashboard.appendToDom();
