@@ -46,97 +46,132 @@ export default class Task {
         this.modalElem.appendChild(modalContentElem);
 
         //create and append the title of the modal
-        const titleTextElem = document.createElement('h1');
-        titleTextElem.classList.add('view-title-text');
-        titleTextElem.textContent = this.title;
+        const titleLabel = document.createElement('label');
+        titleLabel.classList.add('view-label');
+        titleLabel.textContent = 'Title:';
+        const titleInput = document.createElement('input');
+        titleInput.type = 'text';
+        titleInput.value = this.title;
+        titleInput.style.width = '100%';
 
-        modalContentElem.appendChild(titleTextElem);
+        modalContentElem.append(titleLabel, titleInput);
 
         //create and append the task description
-        const description = document.createElement('div');
-        description.classList.add('view-description');
-
-        const descLabel = document.createElement('strong');
+        const descLabel = document.createElement('label');
         descLabel.classList.add('view-label');
-        descLabel.textContent = 'Description: ';
+        descLabel.textContent = 'Description:';
+        const descInput = document.createElement('textarea');
+        descInput.value = this.description;
+        descInput.rows = 2;
+        descInput.style.width = '100%';
 
-        const descText = document.createElement('span');
-        descText.textContent = this.description;
-
-        description.append(descLabel, descText);
-        modalContentElem.appendChild(description);
+        modalContentElem.append(descLabel, descInput);
 
         //create and append the task due date
-        let date = this.dueDate;
-        if (date) {
-        const [year, month, day] = date.split("-");
-        date = `${day}/${month}/${year}`;
-        }
-
-        const viewDate = document.createElement('div');
-        viewDate.classList.add('view-date');
-
-        const dateLabel = document.createElement('strong');
+        const dateLabel = document.createElement('label');
         dateLabel.classList.add('view-label');
-        dateLabel.textContent = 'Due Date: ';
+        dateLabel.textContent = 'Due Date:';
+        const dateInput = document.createElement('input');
+        dateInput.type = 'date';
+        dateInput.value = this.dueDate;
+        dateInput.style.width = '100%';
 
-        const dateText = document.createElement('span');
-        dateText.textContent = date;
-
-        viewDate.append(dateLabel, dateText);
-        modalContentElem.appendChild(viewDate);
+        modalContentElem.append(dateLabel, dateInput);
 
         //create and append the task priority
-        let taskPriority;
-        if (this.priority === "!") {
-        taskPriority = "Low";
-        } else if (this.priority === "!!") {
-        taskPriority = "Medium";
-        } else {
-        taskPriority = "High";
-        }
-
-        const viewPriority = document.createElement('div');
-        viewPriority.classList.add('view-priority');
-
-        const priorityLabel = document.createElement('strong');
+        const priorityLabel = document.createElement('label');
         priorityLabel.classList.add('view-label');
-        priorityLabel.textContent = 'Priority: ';
+        priorityLabel.textContent = 'Priority:';
+        const priorityInput = document.createElement('select');
+        priorityInput.style.width = '100%';
+        ['!', '!!', '!!!'].forEach(val => {
+            const opt = document.createElement('option');
+            opt.value = val;
+            opt.textContent = val === '!' ? 'Low' : val === '!!' ? 'Medium' : 'High';
+            if (this.priority === val) opt.selected = true;
+            priorityInput.appendChild(opt);
+        });
 
-        const priorityText = document.createElement('span');
-        priorityText.textContent = taskPriority;
-
-        viewPriority.append(priorityLabel, priorityText);
-        modalContentElem.appendChild(viewPriority);
+        modalContentElem.append(priorityLabel, priorityInput);
 
         //create and append the task project
-        const project = document.createElement('div');
-        project.classList.add('view-project');
-
-        const projectLabel = document.createElement('strong');
+        const projectLabel = document.createElement('label');
         projectLabel.classList.add('view-label');
-        projectLabel.textContent = 'Project: ';
+        projectLabel.textContent = 'Project:';
 
-        const projectText = document.createElement('span');
-        projectText.textContent = this.project;
+        const projectSelect = document.createElement('select');
+        projectSelect.style.width = '100%';
+        projectSelect.classList.add('project-select');
 
-        project.append(projectLabel, projectText);
-        modalContentElem.appendChild(project);
+        // Populate dropdown from allProjects
+        allProjects.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project.title;
+            option.textContent = project.title;
+            if (project.title === this.project) {
+                option.selected = true; 
+            }
+            projectSelect.appendChild(option);
+        });
+
+        modalContentElem.append(projectLabel, projectSelect);
+
 
 
         //create and append the task id
-        const identification = document.createElement('div');
-        identification.classList.add('view-id');
-
+        const idDisplay = document.createElement('div');
+        idDisplay.classList.add('view-id');
+        idDisplay.style.marginTop = '1rem';
         const idLabel = document.createElement('strong');
         idLabel.classList.add('view-label');
         idLabel.textContent = 'Unique Task ID: ';
-
         const idText = document.createElement('span');
         idText.textContent = this.id;
+        idDisplay.append(idLabel, idText);
+        modalContentElem.appendChild(idDisplay);
 
-        identification.append(idLabel, idText);
-        modalContentElem.appendChild(identification);
+        //create button container
+        const buttonWrap = document.createElement('div');
+        buttonWrap.style.display = 'flex';
+        buttonWrap.style.justifyContent = 'flex-end';
+        buttonWrap.style.gap = '1rem';
+        buttonWrap.style.marginTop = '2rem';
+
+        //create save button
+        const saveButton = document.createElement('button');
+        saveButton.classList.add('view-save-btn');
+        saveButton.textContent = 'Save';
+        saveButton.addEventListener('click', () => {
+            const oldProjectTitle = this.project; 
+
+            this.title = titleInput.value.trim();
+            this.description = descInput.value.trim();
+            this.dueDate = dateInput.value;
+            this.priority = priorityInput.value;
+            this.project = projectSelect.value;
+
+            
+            if (this.project !== oldProjectTitle) {
+                const oldProject = allProjects.find(p => p.title === oldProjectTitle);
+                const newProject = allProjects.find(p => p.title === this.project);
+
+                if (oldProject && newProject) {
+                    oldProject.tasks = oldProject.tasks.filter(task => task.id !== this.id);
+                    newProject.tasks.push(this);
+                }
+            }
+
+            const existingCard = document.getElementById(this.id);
+            if (existingCard) {
+                existingCard.remove(); 
+                this.createCard();     
+            }
+            
+            this.modalElem.classList.remove('open');
+            setTimeout(() => {
+                this.modalElem.remove();
+            }, 300);
+        });
 
         // Create and append close button
         const closeButton = document.createElement('button');
@@ -150,7 +185,8 @@ export default class Task {
             }, 300); // match CSS transition
         });
 
-        modalContentElem.appendChild(closeButton);
+        buttonWrap.append(closeButton, saveButton);
+        modalContentElem.appendChild(buttonWrap);
 
         //append all elements to the DOM
         document.body.appendChild(this.modalElem);

@@ -16,7 +16,6 @@ const defaultProject = new Project("Default");
 const today = new Project("Today");
 const thisWeek = new Project ("This Week");
 const dashboard = new Project ("Dashboard");
-const newTask = new Task('Hello', 'Yes', '01/01/2000', 'high', 'Default');
 
 //add projects to arrays for storage
 defaultProject.addToLargeArray(allProjects);
@@ -24,6 +23,25 @@ today.addToLargeArray(allDates);
 thisWeek.addToLargeArray(allDates);
 dashboard.addToLargeArray(allDates);
 
+//localStorage
+function storageAvailable(type) {
+  let storage;
+  try {
+    storage = window[type];
+    const x = "__storage_test__";
+    storage.setItem(x, x);
+    storage.removeItem(x);
+    return true;
+  } catch (e) {
+    return (
+      e instanceof DOMException &&
+      e.name === "QuotaExceededError" &&
+      // acknowledge QuotaExceededError only if there's something already stored
+      storage &&
+      storage.length !== 0
+    );
+  }
+}
 
 
 //load page
