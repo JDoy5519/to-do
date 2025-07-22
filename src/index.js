@@ -16,6 +16,7 @@ const defaultProject = new Project("Default");
 const today = new Project("Today");
 const thisWeek = new Project ("This Week");
 const dashboard = new Project ("Dashboard");
+const newTask = new Task('Hello', 'Yes', '01/01/2000', 'high', 'Default');
 
 //add projects to arrays for storage
 defaultProject.addToLargeArray(allProjects);
@@ -24,10 +25,9 @@ thisWeek.addToLargeArray(allDates);
 dashboard.addToLargeArray(allDates);
 
 
+
 //load page
 taskPage();
-
-console.log(allDates);
 
 //Modal load
 const confirmModal = new Modal ({

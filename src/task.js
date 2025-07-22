@@ -2,6 +2,7 @@ import { allProjects } from ".";
 import { allDates } from ".";
 import Project from "./project";
 import { isToday, isThisWeek } from "date-fns";
+import removeParent from "./delete";
 
 export default class Task {
     constructor(title, description, dueDate, priority, project) {
@@ -31,6 +32,7 @@ export default class Task {
     createCard() {
         const card = document.createElement('div');
         card.className = 'card';
+        card.id = this.id;
 
         const title = document.createElement('h2');
         title.textContent = this.title;
@@ -51,6 +53,9 @@ export default class Task {
 
         const deleteButton = document.createElement("button");
         deleteButton.textContent = "Delete";
+        deleteButton.addEventListener('click', () => {
+            removeParent(deleteButton);
+        })
 
         const completeButton = document.createElement("button");
         completeButton.textContent = "Complete";
