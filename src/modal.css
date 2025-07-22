@@ -92,8 +92,9 @@ input::placeholder {
 }
 
 input::placeholder {
-  opacity: 0.7;
-  color: white;
+  color: #64748B;
+  opacity: 1;
+  font-weight: 500;
 }
 
 .section-container {

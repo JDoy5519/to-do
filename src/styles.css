@@ -253,6 +253,17 @@ img {
   transition: transform 0.2s ease;
 }
 
+.card.complete {
+  background-color: #F0F9FF; 
+  border-left-color: #10B981;
+  opacity: 0.85;
+}
+
+.card.complete .task-title{
+  text-decoration: line-through;
+  color: #6B7280;
+}
+
 .card:hover {
   transform: translateY(-3px);
 }
@@ -281,6 +292,25 @@ img {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+#dlt-button {
+  background-color: #EF4444; 
+}
+
+#dlt-button:hover {
+  background-color: #DC2626; 
+}
+
+
+#cmplt-button {
+  background-color: #10B981; 
+}
+
+#cmplt-button:hover {
+  background-color: #059669; 
 }
 
 button {
@@ -303,3 +333,100 @@ button:hover {
 button:active {
   transform: scale(0.98);
 }
+
+/* === MODAL === */
+
+.view-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 44, 85, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.view-modal.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.view-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.view-title-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #3B82F6;
+  text-align: center;
+  width: 100%;
+}
+
+.view-description,
+.view-date,
+.view-priority,
+.view-project,
+.view-id {
+  font-size: 1rem;
+  color: #1F2937;
+  font-weight: 500;
+  background-color: #F0F4F8;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.view-label {
+  font-weight: 700;
+  color: #3B82F6;
+  margin-right: 0.5rem;
+}
+
+.view-close-btn {
+  margin-top: 1rem;
+  align-self: center;
+  background-color: #EF4444;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.view-close-btn:hover {
+  background-color: #DC2626;
+}
+
+
