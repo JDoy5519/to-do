@@ -472,5 +472,21 @@ button:active {
   background-color: #059669;
 }
 
+.delete-project-btn {
+  background-color: transparent;
+  border: none;
+  color: #EF4444; /* Tailwind-style red */
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+}
+
+.delete-project-btn:hover {
+  background-color: #FEE2E2; /* light red background */
+  color: #B91C1C; /* darker red on hover */
+}
 
 

@@ -3,6 +3,51 @@ import { allProjects } from ".";
 import { allDates } from ".";
 import Project from "./project";
 import { setCurrentView } from "./state.js";
+import { saveToLocalStorage } from "./storage.js";
+
+function deleteProject(projectTitle) {
+  // Remove from allProjects array
+  const index = allProjects.findIndex(p => p.title === projectTitle);
+  if (index !== -1) {
+    allProjects.splice(index, 1);
+  }
+
+  // Clear any tasks on screen if that project is active
+  const titleElem = document.getElementById('secondaryTitle');
+  if (titleElem.textContent === projectTitle) {
+    const cardContainer = document.querySelector('#cardHolder');
+    cardContainer.innerHTML = '';
+    titleElem.textContent = 'Dashboard';
+  }
+
+  // Re-render sidebar
+  const projectContainer = document.querySelector('.project-list');
+  projectContainer.innerHTML = '';
+  allProjects.forEach(p => {
+    let elem = document.createElement('div');
+    elem.classList.add('project-item');
+
+    const span = document.createElement('span');
+    span.textContent = p.title;
+    span.style.flexGrow = '1';
+    span.style.cursor = 'pointer';
+    span.addEventListener('click', () => appendTasks(p.title));
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'X';
+    delBtn.classList.add('delete-project-btn');
+    delBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteProject(p.title);
+    });
+
+    elem.append(span, delBtn);
+    projectContainer.append(elem);
+  });
+
+  // Save updated state
+  saveToLocalStorage(allProjects, allDates);
+}
 
 
 export default function taskPage() {
@@ -135,12 +180,27 @@ export default function taskPage() {
     projectInput.value = '';
 
     let projectListElem = document.createElement('div');
-    projectListElem.textContent = projectUserInput;
-    projectListElem.addEventListener('click', () => {
-      appendTasks(projectUserInput);
-    })
     projectListElem.classList.add('project-item');
+
+    const projectName = document.createElement('span');
+    projectName.textContent = projectUserInput;
+    projectName.style.flexGrow = '1';
+    projectName.style.cursor = 'pointer';
+    projectName.addEventListener('click', () => {
+      appendTasks(projectUserInput);
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'X';
+    deleteBtn.classList.add('delete-project-btn');
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteProject(projectUserInput);
+    });
+
+    projectListElem.append(projectName, deleteBtn);
     projectContainer.append(projectListElem);
+
   })
 
   formContainer.append(projectInput, buttonHolder)
@@ -168,12 +228,27 @@ export default function taskPage() {
   //loop to give all original sidebar content an onclick function  
   projects.forEach(project => {
     let projectListElem = document.createElement('div');
-    projectListElem.textContent = `${project}`;
     projectListElem.classList.add('project-item');
-    projectListElem.addEventListener('click', () => {
+
+    const projectName = document.createElement('span');
+    projectName.textContent = project;
+    projectName.style.flexGrow = '1';
+    projectName.style.cursor = 'pointer';
+    projectName.addEventListener('click', () => {
       appendTasks(project);
-    })
+    });
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'X';
+    deleteBtn.classList.add('delete-project-btn');
+    deleteBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent click from triggering view
+      deleteProject(project);
+    });
+
+    projectListElem.append(projectName, deleteBtn);
     projectContainer.append(projectListElem);
+
   
   });
 
