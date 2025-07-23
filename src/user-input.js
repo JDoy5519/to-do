@@ -2,16 +2,18 @@ import Task from "./task";
 import Project from "./project";
 import { differenceInHours, format, isToday, isThisWeek } from "date-fns";
 import { allDates } from ".";
+import { allProjects } from ".";
+import { saveToLocalStorage } from "./storage";
 
 //creating a task to push into the array
 export default function userInput() {
-    let title = document.getElementById("taskLabel").value;
+    const title = document.getElementById("taskLabel").value;
     console.log(title);
 
-    let description = document.getElementById("taskDescription").value;
+    const description = document.getElementById("taskDescription").value;
     console.log(description);
 
-    let date = document.getElementById("taskDueDate").value;
+    const date = document.getElementById("taskDueDate").value;
 
     const low = document.getElementById('priority-0');
     const medium = document.getElementById('priority-1');
@@ -25,14 +27,14 @@ export default function userInput() {
     }
     console.log(priority);
 
-    let project = document.getElementById('project').value;
+    const project = document.getElementById('project').value;
     console.log(project);
 
     const newTask = new Task(title, description, date, priority, project);
     const dashboard = allDates[2];
 
-    newTask.getDate();
-    newTask.locateProject(newTask);
+    newTask.pushToArrays();
     newTask.noDuplicates(dashboard);
-    newTask.pushToHome();
+
+    saveToLocalStorage(allProjects, allDates);
 }

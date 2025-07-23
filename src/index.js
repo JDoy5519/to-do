@@ -1,50 +1,37 @@
-import storageAvailable from "./storage.js";
-import Task from "./task.js";
+import {saveToLocalStorage, loadFromLocalStorage} from "./storage.js";
+
 import Project from "./project.js";
 import taskPage from "./task-page.js";
 import './styles.css';
 import './modal.css';
 import Modal from "./modal.js";
-import userInput from "./user-input.js";
+
 
 //initialise bigger arrays
-export const allProjects = [];
-export const allDates = [];
+export let allProjects = [];
+export let allDates = [];
 
-//Initialise default arrays
-const defaultProject = new Project("Default");
-const today = new Project("Today");
-const thisWeek = new Project ("This Week");
-const dashboard = new Project ("Dashboard");
+//load in any saved data
+const loadedData = loadFromLocalStorage();
 
-//add projects to arrays for storage
-defaultProject.addToLargeArray(allProjects);
-today.addToLargeArray(allDates);
-thisWeek.addToLargeArray(allDates);
-dashboard.addToLargeArray(allDates);
+if (loadedData.projects.length === 0 && loadedData.dates.length === 0) {
+  const defaultProject = new Project("Default");
+  const today = new Project("Today");
+  const thisWeek = new Project("This Week");
+  const dashboard = new Project("Dashboard");
 
-//localStorage
-function storageAvailable(type) {
-  let storage;
-  try {
-    storage = window[type];
-    const x = "__storage_test__";
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  } catch (e) {
-    return (
-      e instanceof DOMException &&
-      e.name === "QuotaExceededError" &&
-      // acknowledge QuotaExceededError only if there's something already stored
-      storage &&
-      storage.length !== 0
-    );
-  }
+  defaultProject.addToLargeArray(allProjects);
+  today.addToLargeArray(allDates);
+  thisWeek.addToLargeArray(allDates);
+  dashboard.addToLargeArray(allDates);
+
+  saveToLocalStorage(allProjects, allDates);
+} else {
+  allProjects = loadedData.projects;
+  allDates = loadedData.dates;
 }
 
-
-//load page
+//build UI
 taskPage();
 
 //Modal load
@@ -58,9 +45,8 @@ const confirmModal = new Modal ({
 
 const taskButton = document.querySelector('#task');
 
-taskButton.addEventListener('click', () => {
+if(taskButton){
+  taskButton.addEventListener('click', () => {
     confirmModal.createAndOpen();
 });
-
-
-dashboard.appendToDom();
+}

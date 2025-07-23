@@ -1,29 +1,20 @@
 import { allProjects } from ".";
 import { allDates } from ".";
-import Project from "./project";
+import { saveToLocalStorage } from "./storage";
 
-export default function removeParent(x) {
-    const thisTask = x.parentElement.parentElement;
-    const id = thisTask.id;
+export default function removeParent(button) {
+    const card = button.closest('.card');
+    const taskId = card.id;
 
-    function removeTaskFromCollection(collection, label) {
-        for (const project of collection) {
-        const index = project.tasks.findIndex(task => task.id === id);
-        if (index !== -1) {
-            project.tasks.splice(index, 1);
-            console.log(`Removed task ${id} from ${label}: ${project.title}`);
-            return true;
-        }
-        }
-        console.log(`Task with ID ${id} not found in ${label}.`);
-        return false;
-    }
+    card.remove();
 
-    thisTask.remove();
+    allProjects.forEach(project => {
+        project.tasks = project.tasks.filter(task => task.id !== taskId);
+    });
 
-    removeTaskFromCollection(allProjects, "allProjects");
-    removeTaskFromCollection(allDates, "allDates");
+    allDates.forEach(dateProject => {
+        dateProject.tasks = dateProject.tasks.filter(task => task.id !== taskId);
+    });
 
-    console.log(allProjects);
-    console.log(allDates);
+    saveToLocalStorage(allProjects, allDates);
 }

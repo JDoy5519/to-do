@@ -1,9 +1,11 @@
 import { allProjects } from ".";
 import { allDates } from ".";
+import { saveToLocalStorage } from "./storage";
 import Project from "./project";
 import { isToday, isThisWeek } from "date-fns";
 import removeParent from "./delete";
 import completeTask from "./complete";
+import { getCurrentView } from "./state";
 
 export default class Task {
     constructor(title, description, dueDate, priority, project) {
@@ -13,21 +15,7 @@ export default class Task {
         this.priority = priority;
         this.project = project;
         this.id = crypto.randomUUID();
-    }
-
-    locateProject() {
-        const found = allProjects.find((proj) => proj.title === this.project);
-        if (found) {
-            found.tasks.push(this);
-        } else {
-            alert("This is not a project!");
-        }
-        
-    };
-
-    pushToHome() {
-        const dashboard = allDates[2];
-        dashboard.tasks.push(this);
+        this.completed - false;
     }
 
     viewModal() {
@@ -142,7 +130,7 @@ export default class Task {
         saveButton.classList.add('view-save-btn');
         saveButton.textContent = 'Save';
         saveButton.addEventListener('click', () => {
-            const oldProjectTitle = this.project; 
+            const oldProjectTitle = this.project;
 
             this.title = titleInput.value.trim();
             this.description = descInput.value.trim();
@@ -150,7 +138,6 @@ export default class Task {
             this.priority = priorityInput.value;
             this.project = projectSelect.value;
 
-            
             if (this.project !== oldProjectTitle) {
                 const oldProject = allProjects.find(p => p.title === oldProjectTitle);
                 const newProject = allProjects.find(p => p.title === this.project);
@@ -163,10 +150,12 @@ export default class Task {
 
             const existingCard = document.getElementById(this.id);
             if (existingCard) {
-                existingCard.remove(); 
-                this.createCard();     
+                existingCard.remove();
+                this.createCard();
             }
-            
+
+            saveToLocalStorage(allProjects, allDates);
+
             this.modalElem.classList.remove('open');
             setTimeout(() => {
                 this.modalElem.remove();
@@ -193,8 +182,23 @@ export default class Task {
     }
 
     createCard() {
+        const current = getCurrentView();
+
+        if (
+        current !== 'Dashboard' &&
+        current !== 'Today' &&
+        current !== 'This Week' &&
+        this.project !== current
+    ) {
+        console.log(`Skipping card: ${this.title} | View: ${current} | Project: ${this.project}`);
+        return;
+    }
+
+        console.log(`Rendering card: ${this.title} | View: ${current} | Project: ${this.project}`);
+
         const card = document.createElement('div');
         card.className = 'card';
+        if (this.completed) card.classList.add('complete');
         card.id = this.id;
 
         const title = document.createElement('h2');
@@ -228,8 +232,17 @@ export default class Task {
         completeButton.textContent = "Complete";
         completeButton.id = 'cmplt-button'
         completeButton.addEventListener('click', () => {
-            completeTask(completeButton);
-        })
+            this.completed = !this.completed;
+
+            const card = document.getElementById(this.id);
+            if (this.completed) {
+                card.classList.add('complete');
+            } else {
+                card.classList.remove('complete');
+            }
+
+            saveToLocalStorage(allProjects, allDates); // <- Save updated state
+            });
 
         const viewButton = document.createElement('button');
         viewButton.textContent = 'View';
@@ -243,29 +256,6 @@ export default class Task {
 
         const cardHolder = document.getElementById('cardHolder');
         cardHolder.appendChild(card);
-    }
-
-    getDate() {
-        //convert argument to date
-        const date = new Date(this.dueDate);
-        console.log(date);
-    
-        //logic to decide whether it is today 
-        // or this week
-        const today = isToday(date);
-        const thisWeek = isThisWeek(date);
-    
-        //logic for actions based 
-        // upon these boolean statements
-        if (today === true) {
-            allDates[0].tasks.push(this);
-            console.log(allDates[0]);
-        } else if (thisWeek === true) {
-            allDates[1].tasks.push(this);
-            console.log(allDates[1]);
-        } else {
-            console.log("This is way in the future!")
-        }
     }
 
     noDuplicates(project) {
@@ -289,5 +279,27 @@ export default class Task {
     this.createCard();
     }
     }
+
+    pushToArrays() {
+    const project = allProjects.find(p => p.title === this.project);
+    if (project) {
+        project.tasks.push(this);
+    }
+
+    const date = new Date(this.dueDate);
+    const todayProject = allDates.find(p => p.title === "Today");
+    const weekProject = allDates.find(p => p.title === "This Week");
+    const dashboardProject = allDates.find(p => p.title === "Dashboard");
+
+    if (isToday(date)) {
+        todayProject?.tasks.push(this);
+    } else if (isThisWeek(date)) {
+        weekProject?.tasks.push(this);
+    }
+
+    dashboardProject?.tasks.push(this);
+
+    saveToLocalStorage(allProjects, allDates);
+}
     
  }

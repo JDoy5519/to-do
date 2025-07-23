@@ -2,6 +2,7 @@ import logoImg from "./images/logo.png";
 import { allProjects } from ".";
 import { allDates } from ".";
 import Project from "./project";
+import { setCurrentView } from "./state.js";
 
 
 export default function taskPage() {
@@ -38,18 +39,20 @@ export default function taskPage() {
   //onclick for existing sidebar elements
   function appendDates(project) {
     const found = allDates.find((date) => date.title === project);
-    console.log(found.tasks);
-    const cardContainer = document.querySelector('#cardHolder');
-    cardContainer.innerHTML = '';
-    found.tasks.forEach(task => task.createCard());
-    const title = document.querySelector('#secondaryTitle');
-    title.textContent = `${project}`;
+  if (!found) return;
+  setCurrentView(project);
+
+  const cardContainer = document.querySelector('#cardHolder');
+  cardContainer.innerHTML = '';
+  found.tasks.forEach(task => task.createCard());
+  document.querySelector('#secondaryTitle').textContent = project;
   }
 
   //creating and appending sections to the sidebar
   const sidebarDiv = document.createElement('div');
   sidebarDiv.className = 'bottom-div';
   sidebarDiv.id = 'sidebar'
+
   const sidebar = document.createElement('div');
   sidebar.className = 'sidebar-holder';
   const dashboard = document.createElement('div');
@@ -102,12 +105,13 @@ export default function taskPage() {
   //function to be reused onclick for newly created projects
   function appendTasks(project) {
     const found = allProjects.find((proj) => proj.title === project);
-    console.log(found.tasks);
-    const cardContainer = document.querySelector('#cardHolder');
-    cardContainer.innerHTML = '';
-    found.tasks.forEach(task => task.createCard());
-    const title = document.querySelector('#secondaryTitle');
-    title.textContent = `${project}`;
+  if (!found) return;
+  setCurrentView(project);
+
+  const cardContainer = document.querySelector('#cardHolder');
+  cardContainer.innerHTML = '';
+  found.tasks.forEach(task => task.createCard());
+  document.querySelector('#secondaryTitle').textContent = project;
   }
 
   //eventListeners for the buttons to open/close the form
@@ -202,4 +206,6 @@ export default function taskPage() {
 
   bottomDiv.append(sidebarDiv, mainDiv);
   contentHolder.append(topDiv, bottomDiv);
+
+  appendDates("Dashboard");
 }
